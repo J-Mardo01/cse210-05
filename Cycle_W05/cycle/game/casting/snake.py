@@ -3,6 +3,7 @@ from game.casting.actor import Actor
 from game.shared.point import Point
 
 
+
 class Snake(Actor):
     """
     A long limbless reptile.
@@ -12,13 +13,14 @@ class Snake(Actor):
     Attributes:
         _points (int): The number of points the food is worth.
     """
-    def __init__(self):
+    def __init__(self, snake_number):
         super().__init__()
         self._segments = []
-        self._prepare_body()
+        self._prepare_body(snake_number)
 
     def get_segments(self):
         return self._segments
+
 
     def move_next(self):
         # move all segments
@@ -45,25 +47,43 @@ class Snake(Actor):
             segment.set_position(position)
             segment.set_velocity(velocity)
             segment.set_text("#")
-            segment.set_color(constants.GREEN)
+            segment.set_color(tail.get_color())
+            #segment.set_color(constants.GREEN)
             self._segments.append(segment)
 
     def turn_head(self, velocity):
         self._segments[0].set_velocity(velocity)
     
-    def _prepare_body(self):
-        x = int(constants.MAX_X / 2)
-        y = int(constants.MAX_Y / 2)
+    def _prepare_body(self, snake_number):
+        if snake_number==1:
+            x = int(constants.MAX_X / 4)
+            y = int(constants.MAX_Y / 2)
 
-        for i in range(constants.SNAKE_LENGTH):
-            position = Point(x - i * constants.CELL_SIZE, y)
-            velocity = Point(1 * constants.CELL_SIZE, 0)
-            text = "8" if i == 0 else "#"
-            color = constants.YELLOW if i == 0 else constants.GREEN
-            
-            segment = Actor()
-            segment.set_position(position)
-            segment.set_velocity(velocity)
-            segment.set_text(text)
-            segment.set_color(color)
-            self._segments.append(segment)
+            for i in range(constants.SNAKE_LENGTH):
+                position = Point(x - i * constants.CELL_SIZE, y)
+                velocity = Point(1 * constants.CELL_SIZE, 0)
+                text = "8" if i == 0 else "#"
+                color = constants.YELLOW if i == 0 else constants.GREEN
+                
+                segment = Actor()
+                segment.set_position(position)
+                segment.set_velocity(velocity)
+                segment.set_text(text)
+                segment.set_color(color)
+                self._segments.append(segment)
+        else: 
+            x = int(constants.MAX_X * 3 / 4)
+            y = int(constants.MAX_Y / 2)
+
+            for i in range(constants.SNAKE_LENGTH):
+                position = Point(x - i * constants.CELL_SIZE, y)
+                velocity = Point(1 * constants.CELL_SIZE, 0)
+                text = "8" if i == 0 else "#"
+                color = constants.YELLOW if i == 0 else constants.RED
+                
+                segment = Actor()
+                segment.set_position(position)
+                segment.set_velocity(velocity)
+                segment.set_text(text)
+                segment.set_color(color)
+                self._segments.append(segment)

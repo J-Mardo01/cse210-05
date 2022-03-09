@@ -24,7 +24,8 @@ class ControlActorsAction(Action):
             keyboard_service (KeyboardService): An instance of KeyboardService.
         """
         self._keyboard_service = keyboard_service
-        self._direction = Point(constants.CELL_SIZE, 0)
+        self._direction_one = UP
+        self._direction_two = DOWN
 
     def execute(self, cast, script):
         """Executes the control actors action.
@@ -33,21 +34,47 @@ class ControlActorsAction(Action):
             cast (Cast): The cast of Actors in the game.
             script (Script): The script of Actions in the game.
         """
+        
         # left
-        if self._keyboard_service.is_key_down('a'):
-            self._direction = LEFT
+        if self._keyboard_service.is_key_down('a') and self._direction_one != RIGHT:
+            self._direction_one = LEFT
         
         # right
-        if self._keyboard_service.is_key_down('d'):
-            self._direction = RIGHT
+        if self._keyboard_service.is_key_down('d') and self._direction_one != LEFT:
+            self._direction_one = RIGHT
         
         # up
-        if self._keyboard_service.is_key_down('w'):
-            self._direction = UP
+        if self._keyboard_service.is_key_down('w') and self._direction_one != DOWN:
+            self._direction_one = UP
         
         # down
-        if self._keyboard_service.is_key_down('s'):
-            self._direction = DOWN
+        if self._keyboard_service.is_key_down('s') and self._direction_one != UP:
+            self._direction_one = DOWN
         
-        snake = cast.get_first_actor("snakes")
-        snake.turn_head(self._direction)
+        snake_one = cast.get_first_actor("snakes")
+        snake_one.turn_head(self._direction_one)
+
+
+        # Snake 2
+        # left
+        if self._keyboard_service.is_key_down('j') and self._direction_two != RIGHT:
+            self._direction_two = LEFT
+
+        
+        # right
+        if self._keyboard_service.is_key_down('l') and self._direction_two != LEFT:
+            self._direction_two = RIGHT
+            
+        
+        # up
+        if self._keyboard_service.is_key_down('i') and self._direction_two != DOWN:
+            self._direction_two = UP
+            
+        
+        # down
+        if self._keyboard_service.is_key_down('k') and self._direction_two != UP:
+            self._direction_two = DOWN
+
+        
+        snake_two = cast.get_second_actor("snakes")
+        snake_two.turn_head(self._direction_two)

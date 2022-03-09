@@ -85,6 +85,14 @@ class Actor:
         """
         self._color = color
 
+    def get_color(self):
+        """Updates the color to the given one.
+        
+        Args:
+            color (Color): The given color.
+        """
+        return self._color
+
     def set_position(self, position):
         """Updates the position to the given one.
         
